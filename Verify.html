@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#eef1f5;color:#1b2430;font:15px/1.5 system-ui,Arial,sans-serif}
+main{max-width:520px;margin:0 auto;padding:16px}
+.card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.head{text-align:center;padding:22px 20px 14px;border-bottom:1px solid #e6eaf0}
+.head img{max-height:84px;max-width:140px;object-fit:contain}
+.head .u{font-weight:700;margin-top:8px;font-size:16px}
+.head .s{color:#667;font-size:13px}
+.st{text-align:center;padding:18px 20px}
+.ok{background:#e4f5ea;color:#12803c}
+.bad{background:#fdeceb;color:#b3261e}
+.ic{font-size:44px;line-height:1}
+.st h2{margin:6px 0 2px;font-size:20px}
+.st p{margin:0;color:#333;font-size:14px}
+dl{display:grid;grid-template-columns:110px 1fr;gap:8px 12px;margin:0;padding:18px 20px}
+dt{color:#667}dd{margin:0;word-break:break-word}
+.m{font:12px monospace}
+.ft{text-align:center;color:#889;font-size:12px;padding:0 20px 18px}
+</style>
+</head>
+<body>
+<main>
+<div class="card">
+<? if (!r) { ?>
+  <div class="st bad"><div class="ic">✕</div><h2>Surat tidak ditemukan</h2><p>Kode tidak terdaftar di sistem. Surat tidak dapat divalidasi.</p></div>
+<? } else { ?>
+  <div class="head">
+    <? if (logo) { ?><img src="<?!= logo ?>" alt="Logo"><? } ?>
+    <div class="u"><?= r.Unit ?></div>
+    <div class="s">Sistem Validasi Surat</div>
+  </div>
+  <? if (r.Status !== 'VALID') { ?>
+    <div class="st bad"><div class="ic">!</div><h2>Surat telah dicabut</h2><p>Surat ini sudah tidak berlaku.</p></div>
+  <? } else { ?>
+    <div class="st ok"><div class="ic">✓</div><h2>Surat Valid &amp; Terverifikasi</h2><p>Tercatat di sistem dan disahkan oleh <?= r.Jabatan ?>.</p></div>
+  <? } ?>
+  <dl>
+    <dt>Nomor surat</dt><dd><?= r.Nomor ?></dd>
+    <dt>Jenis surat</dt><dd><?= r.Jenis ?></dd>
+    <dt>Perihal</dt><dd><?= r.Perihal ?></dd>
+    <dt>Ditujukan</dt><dd><?= r.Tujuan ?></dd>
+    <dt>Tanggal</dt><dd><?= r.Tanggal ?></dd>
+    <dt>Disahkan oleh</dt><dd><?= r.Pejabat ?><br><small style="color:#667"><?= r.Jabatan ?></small></dd>
+    <dt>Sidik dokumen</dt><dd class="m"><? if (r.Hash) { ?><?= r.Hash.slice(0, 24) ?>…<? } else { ?>Berkas belum diunggah<? } ?></dd>
+  </dl>
+  <div class="ft">Kode: <?= r.ID ?></div>
+<? } ?>
+</div>
+</main>
+</body>
+</html>
